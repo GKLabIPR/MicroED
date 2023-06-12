@@ -15,7 +15,11 @@ Journal of the American Chemical Society, 142.44 (2020)
 ## Install AutoHotKey
 
 To controll the beam stop and Verlox, we use [AutoHotKey](https://www.autohotkey.com/).
-Please install it to the system and change the path in SerialEM macros accordingly.
+Please install it to the computer running SerialEM and TEM User Interface.
+
+Our SerialEM macro assumes the AutoHotKey runtime `AutoHotkeyU64.exe` and macros (`*.ahk`) are
+located in `E:\SerialEM\ahk_scripts\`. If you place them somewhere else, please update the
+`ahk_dir` variables in the SerialEM macro (there are several occurences).
 
 ## Beam stop and Verlox control
 

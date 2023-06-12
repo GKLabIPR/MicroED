@@ -1,0 +1,185 @@
+MaxMacros 60
+
+Macro 5
+ScriptName SimpleTilt3
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+# Modified by Takanori Nakane.
+
+UpdateItemZ
+
+# 230426: GL8, nP spot11, parallel 0.06 e/A2/sec (measured by Falcon3EC)
+#              mP spot 8, C2 63 % << 0.01 e/A2/sec
+
+# rotation speed
+# 0.0032  0.1 deg/sec
+# 0.0064  0.2
+# 0.0096  0.3
+# 0.0192  0.6
+# 0.0256  0.8
+# 0.0320  1.0
+
+ahk_dir = "E:\SerialEM\ahk_scripts\"
+ahk = AutoHotkeyU64.exe
+script = start_velox_mov_rec.ahk
+SetDirectory Z:\Data\IPR-Talos-230328-Sample1
+Call SaveCrystalImage
+
+rotationSpeed = 0.0320
+Direction = 0
+plusMinusRange = 0.2
+
+ReportNavItem 
+navi_idx = $repval1
+k = modulo $navi_idx 4
+
+#k = -1
+
+If $k == 0
+  angleStart = 45
+  angleEnd = -20
+ElseIf $k == 1
+  angleStart = 35
+  angleEnd = -30
+ElseIf $k == 2
+  angleStart = 25
+  angleEnd = -40
+ElseIf $k == 3
+  angleStart = 15
+  angleEnd = -50
+ElseIf $k == -1
+  angleStart = +33
+  angleEnd = -30
+Endif 
+
+SetBeamBlank 1
+
+######################################################
+#SuppressReports 
+
+echo start:  $angleStart
+echo end:  $angleEnd
+echo rotationSpeed:  $rotationSpeed
+
+GoToLowDoseArea R
+Delay 3 sec
+GoToLowDoseArea T
+Call BS_in
+
+ProgramTimeStamps
+
+TiltTo $angleStart
+Delay 2 sec
+
+BackgroundTilt $angleEnd $rotationSpeed
+
+echo callVerlox
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script
+
+echo Loop
+Loop 999 index
+	Delay 1 sec
+	ReportTiltAngle
+	CurrentAngle = $ReportedValue1
+	If $Direction == 0
+		negLimit = $angleEnd + $plusMinusRange
+		If $CurrentAngle < $negLimit
+			break
+		Else
+			continue
+		Endif
+	Else
+		posLimit = $angleEnd - $plusMinusRange
+		If $CurrentAngle > $posLimit
+			break
+		Else
+			continue
+		Endif
+	Endif
+EndLoop
+
+echo CallVerlox
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script
+
+Delay 1 sec
+TiltTo 0
+Call BS_out
+EndMacro
+
+Macro	6
+ScriptName Chk_Dw_lvl
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+
+SuppressReports 
+
+DewarsRemainingTime dw_second
+dw_min = $dw_second / 60
+Echo Dewers remaining time $dw_min min
+
+If $dw_second < 1800
+    Echo Refill dewers before start
+    ResetClock 
+    LongOperation Re 0
+    ReportClock
+Endif
+EndMacro
+
+Macro	8
+ScriptName BS_in
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+# Modified by Takanori Nakane.
+
+ahk_dir = "E:\SerialEM\ahk_scripts\"
+ahk = AutoHotkeyU64.exe
+script1 = beam_stop_in.ahk
+
+echo BS in
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script1
+Delay 1 sec
+EndMacro
+
+Macro	9
+ScriptName BS_out
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+# Modified by Takanori Nakane.
+
+ahk_dir = "E:\SerialEM\ahk_scripts\"
+ahk = AutoHotkeyU64.exe
+script1 = beam_stop_out.ahk
+
+echo BS out
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script1
+Delay 1 sec
+EndMacro
+
+Macro	16
+ScriptName SaveCrystalImage
+
+ReportNavItem
+# this defines $navLabel
+
+ReportDateTime
+date = $ReportedValue1
+time = $ReportedValue2
+CropCenterToSize A 512 512
+SaveToOtherFile A JPG NONE thumb-$date_$time_$navLabel.jpg
+EndMacro
+
+Macro	17
+ScriptName SaveDiffSnap
+
+# BS must be in before running this script
+
+T
+ReportNavItem
+# this defines $navLabel
+
+ReportDateTime
+date = $ReportedValue1
+time = $ReportedValue2
+CropCenterToSize A 1536 1536
+SaveToOtherFile A JPG NONE screen-$date_$time_$navLabel.jpg
+EndMacro
