@@ -23,7 +23,7 @@ Unfortunately, compression by the `h5repack` command is very slow due to　an
 inefficient access pattern, as discussed [here](https://forum.hdfgroup.org/t/speeding-up-h5repack/1145).
 Our `repack_emd.py` reads data in a more efficient way and compresses about 40 times faster.
 
-On the on-the-fly processing node, which can access microscope's storage,
+On the on-the-fly processing node called `talos-otf`, which can access microscope's storage,
 we run the following one-liner to compress Verlox EMD files.
 
 ```sh
