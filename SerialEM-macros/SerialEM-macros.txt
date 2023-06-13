@@ -22,7 +22,6 @@ UpdateItemZ
 ahk_dir = "E:\SerialEM\ahk_scripts\"
 ahk = AutoHotkeyU64.exe
 script = start_velox_mov_rec.ahk
-SetDirectory Z:\Data\IPR-Talos-230328-Sample1
 Call SaveCrystalImage
 
 rotationSpeed = 0.0320
