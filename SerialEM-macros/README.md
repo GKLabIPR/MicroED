@@ -21,6 +21,14 @@ Our SerialEM macro assumes the AutoHotKey runtime `AutoHotkeyU64.exe` and macros
 located in `E:\SerialEM\ahk_scripts\`. If you place them somewhere else, please update the
 `ahk_dir` variables in the SerialEM macro (there are several occurences).
 
+NOTE: If you have a newer version of Advanced Scripting Interface, SerialEM might be
+capable of recording movies from Ceta. In this case, you don't need Verlox.
+Unfortunately we cannot test this.
+
+Others (e.g. [CRmov](https://serialemscripts.nexperion.net/script/44)) have used a loop
+in a SerialEM macro to capture frame by frame. In our test, this led to unpredictable
+and highly variable gaps between frames. So we don't recommend this approach.
+
 ### Beam stop and Verlox control
 
 `beam_stop_in.ahk` and `beam_stop_out.ahk` inserts and retracts the beam stop, respectively,
@@ -34,7 +42,7 @@ The camera and recording parameters have to be set beforehand.
 
 Depending on the TUI and Verlox version, you might have to update the button coordinates.
 
-**CAREFULLY TEST YOURSELF BEFORE YOUR EXPERIMENT!**
+**CAREFULLY TEST THIS YOURSELF BEFORE YOUR EXPERIMENT!**
 Failure to properly insert a beam stop can permanently damage your detector.
 We take no responsibility.
 
