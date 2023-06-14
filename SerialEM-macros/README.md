@@ -123,7 +123,7 @@ Click [`Edit`]-[`Preferences`] menu item:
 
 1.  Switch the scope to the grid montage condition (LM 115x, CA 150 um) and load a grid.
 2.  Run `Rough eucentricity`.
-3.  From the [`Navigator`]-[`Montage`]-[`Montage Setup`] menu, set up a 4 x 4 montage and press `Start`.   
+3.  From the [`Navigator`]-[`Montaging & Grids`]-[`Setup Full Montage`] menu, set up a 4 x 4 montage and press `Start`.   
     We assume you saved the grid montage as `Z:\path\to\data\LMM.mrc` and the
     navigator as `Z:\path\to\data\nav.nav`.
 4.  Activate the low-dose mode and switch to the "View" condition.
@@ -210,3 +210,17 @@ where `N` is the navigator item ID.
 
 During the data collection, **DO NOT TOUCH THE MOUSE**.
 Manual mouse operation conflicts with AutoHotKey.
+
+### Reloading a grid
+
+If you unload a grid from the stage to the autoloader and reload it later,
+the grid does not necessarily come back to exactly the same position.
+It might be translated and/or rotated.
+This error is larger on TFS scopes than JEOL scopes.
+Because of this, we reuse a grid montage, but not square montages.
+
+After reloading, we use the [`Navitator`]-[`Shift to Maker`] menu command to fix large shifts before
+taking square montages on new grid squares. Sometimes the rotation is too large and `Shit to Maker` at
+one square leave squares far away very off. In this case, [`Navitator`]-[`Transform Items`] is
+useful but more time consuming. If only a few squares have been collected, redrawing
+the grid montage might be quicker in practice.
