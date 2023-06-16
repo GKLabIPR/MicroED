@@ -66,6 +66,15 @@ and a monoclinic constraint).
 
 This is done by `process_P1.sh` and `process_mP.sh`. (TO BE DESCRIBED)
 
+## dials.filter_blanks
+
+Often crystals go out of the beam during rotation or die due to radiation damage.
+Integrating empty frames leads to strange merging statistics including negative R factors.
+`filter_blanks.py` removes such empty frames.
+
+This script was originally written by Graeme Winter as a [pull request to DIALS](https://github.com/dials/dials/pull/2232),
+but has never been merged. Takanori Nakane (hopefully) fixed bugs in frame indexing (see the above pull request for details).
+
 ## Summarizing the result
 
 `list.sh` produces a nice table of processing results.
