@@ -64,7 +64,22 @@ and a monoclinic constraint).
     - P1/
     - mP/
 
-This is done by `process_P1.sh` and `process_mP.sh`. (TO BE DESCRIBED)
+This is done by `process_P1.sh` and `process_mP.sh`.
+
+We first run `process_P1.sh` as follows:
+
+```
+find images/ -name "*.emd" -size +50M | cut -d_ -f 3,4  | tee LIST | parallel -P8 --ungroup bash process_P1.sh
+```
+
+(Of course parameters such as resolution limits and beam center have to be adjusted beforehand.)
+
+The size filter is to ignore empty movies; we don't know why but sometimes Verlox fails to capture movies.
+This happened about 1 in 50 movies.
+
+The script performs spot finding, indexing (without known unit cell) and integration.
+Empty frames are filtered (see below) and the Patterson group is estimated.
+Finally the intensities before and after blank removal are scaled in P1 to give a rough estimate of data quality.
 
 ## dials.filter_blanks
 
@@ -77,13 +92,36 @@ but has never been merged. Takanori Nakane (hopefully) fixed bugs in frame index
 
 ## Summarizing the result
 
-`list.sh` produces a nice table of processing results.
+`list.sh` produces a nice table of processing results:
+
+```
+bash list.sh P1/not_blank | sort -rnk2 | tee RESO-P1-nb
+```
 
 The table lists the path, resolution at which CC1/2 drops below 0.3, unit cell parameters (before cosym)
 and symmetry suggested by `dials.cosym`.
 
 ```
-20230609_1245/P1 0.92     Unit cell: 5.336  6.4611  10.860  90.14  91.3  90.66 Best solution: P 1 2/m 1
 20230612_0222/P1 1.26     Unit cell: 5.344  6.4788  10.84  90.00  90.20  90.02 Best solution: P 1 2/m 1
+20230609_1245/P1 0.92     Unit cell: 5.336  6.4611  10.860  90.14  91.3  90.66 Best solution: P 1 2/m 1
 ...
 ```
+
+Without `/not_blank`, the table is created for intensities before blank frame removal.
+
+At this point, we manually merge promising crystals and try phasing.
+
+## Reprocessing with prior cell parameters
+
+Once we know the right space group and the cell parameters, we set it to `process_mP.sh`
+to reprocess datasets with prior cell information and Bravais lattice constraints.
+
+```
+parallel -P8 --ungroup bash process_mP.sh < LIST
+```
+
+Note that this uses the spot finding results from the `P1` jobs.
+So you have to run `process_P1.sh` beforehand.
+This is good, because indexing with prior cell parameters rejects all
+crystals with different cell parameters. Thus, you might miss rare
+crystal polymorphs.
