@@ -47,6 +47,9 @@ while true; do rsync -avuP --exclude raw --exclude '*.tmp' talos-otf:/mnt/falcon
 
 ## Processing with DIALS
 
+First of all, install [FormatVelox.py](https://github.com/dials/dxtbx_ED_formats/blob/main/FormatVelox.py)
+to DIALS via `dxtbx.install_format` command to read Verlox EMD movies.
+
 We make a separate work directory and make a symbolic link called `images` to the `compressed` folder.
 For each crystal, we make a subdirectory, within which each processing trial has its own directory.
 In this example, we have two trials, one called P1 (without known unit cell) and mP (with prior cell parameters
@@ -72,7 +75,7 @@ We first run `process_P1.sh` as follows:
 find images/ -name "*.emd" -size +50M | cut -d_ -f 3,4  | tee LIST | parallel -P8 --ungroup bash process_P1.sh
 ```
 
-(Of course parameters such as resolution limits and beam center have to be adjusted beforehand.)
+(Of course parameters such as resolution limits and the beam center have to be adjusted beforehand.)
 
 The size filter is to ignore empty movies; we don't know why but sometimes Verlox fails to capture movies.
 This happened about 1 in 50 movies.
