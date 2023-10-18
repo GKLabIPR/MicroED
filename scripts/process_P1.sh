@@ -51,7 +51,7 @@ dials.python ../../../scripts/filter_blanks.py integrated.expt integrated.refl
 if [ ! -f not_blank.expt ]; then
 	    exit
 fi
-dials.cosym integrated.expt integrated.refl
+dials.symmetry integrated.expt integrated.refl
 
 mkdir not_blank
 cd not_blank

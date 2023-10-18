@@ -22,6 +22,6 @@ for f in */$1/dials.scale.log; do
 	 END {if (ok != 1) printf "BAD"}' $f
     grep Unit $DIR/dials.integrate.log | sed -e s,\([0-9]*\),,g  -e 's/,/ /g' | tr -d '\n'
     echo -n " "
-    grep "Best sol" $DIR/dials.cosym.log | tr -d '\n'
+    grep "Best sol" $DIR/dials.symmetry.log | tr -d '\n'
     echo
 done | grep -v BAD
