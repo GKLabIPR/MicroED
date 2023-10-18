@@ -224,3 +224,13 @@ taking square montages on new grid squares. Sometimes the rotation is too large 
 one square leave squares far away very off. In this case, [`Navitator`]-[`Transform Items`] is
 useful but more time consuming. If only a few squares have been collected, redrawing
 the grid montage might be quicker in practice.
+
+## Virtual camera distances
+
+As of August 25, 2023, the nominal and real camera distances of our Talos Arctica with Ceta are as follows. The error is hopefully about 0.5 %.
+
+- D850 ~ 784 mm
+- D670 ~ 618 mm
+- D530 ~ 521 mm
+- D420 ~ 411 mm
+
