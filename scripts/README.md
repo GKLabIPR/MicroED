@@ -159,13 +159,13 @@ crystal polymorphs.
 
 ## Processing tips
 
-### the default hkl_tolerance is too large
+### The default hkl_tolerance is too large
 
 When the unit cell is small (e.g. inorganic salt) and the image contains multiple lattices, the default `hkl_tolerance=0.3` in `dials.index` might be too large.
 It accepts many spots belonging to other lattices that are tens of or even one hundred pixels away on an image and distort the unit cell parameters.
 I found `hkl_tolerance=0.1` worked well.
 
-### the rotation axis
+### The rotation axis can be different
 
 If your scope has the MicroED upgrade package with Ceta-D, the projection lens parameters have probably been adjusted such that the rotation axis coincides with the beam stop.
 This is not the case with our scope.
