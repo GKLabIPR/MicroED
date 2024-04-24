@@ -73,7 +73,7 @@ Otherwise, deg/frame becomes non-uniform and causes processing issues.
 Click `Set File Options` to open the "Frame File Options" dialog box.
 Enable `Base name` and set it "MicroED" (or whatever).
 Also enable `Label of Navigator item` and `Numeric date (including year) and time at start of name`.
-This results in file names like `2024-04-19_18.39.00_4_0.0419_MicroED_69.tif` (0.04199 is the rotation speed added by the script).
+This results in file names like `2024-04-19_18.39.00_4_0.0419_MicroED_69.tif` (0.04199 is the rotation speed scale factor added by the script).
 
 For all modes, select `Binning 2` (2048 x 2048 pixels), `Gain Normalized` and `Linear mode`. 
 
@@ -88,7 +88,7 @@ This means the 50th frame is only 0.020 seconds.
 149 frames / 149 fractions give 3.720 seconds as expected but
 150 frames / 150 fractions are 3.74 second (i.e. the 150th frame is again only 0.020 seconds).
 
-Similarly, the 251-th, 351-th and 451th frames are only 0.020 second, not 0.0250 seconds.
+Similarly, the 251th, 351th and 451th frames are only 0.020 second, not 0.0250 seconds.
 I guess this is related to CDS but don't know the exact rule.
 
 ### Record time mystery
