@@ -63,12 +63,17 @@ Let's start with easy ones:
 - View and Montage: Single image, 0.75 seconds
 - Preview: Single image, 0.5 seconds 
 
-For the Record mode, select "Save frames" and set the `Exposure time` to 51.0 second.
+For the Record mode, check `Save frames` and set the `Exposure time` to 51.0 second.
 Click `Set Up Frames to Save` to open the "Frame Summing Selector" dialog box.
 Change the `# of summed frames to save` to `146`.
 This should give 146 fractions with 14 frames each.
 You may try different combinations (e.g. 292 fractions with 7 frames each) but make sure all fractions contain the same number of frames.
 Otherwise, deg/frame becomes non-uniform and causes processing issues.
+
+Click `Set File Options` to open the "Frame File Options" dialog box.
+Enable `Base name` and set it "MicroED" (or whatever).
+Also enable `Label of Navigator item` and `Numeric date (including year) and time at start of name`.
+This results in file names like `2024-04-19_18.39.00_4_0.0419_MicroED_69.tif` (0.04199 is the rotation speed added by the script).
 
 For all modes, select `Binning 2` (2048 x 2048 pixels), `Gain Normalized` and `Linear mode`. 
 
