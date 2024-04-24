@@ -14,7 +14,7 @@ Our data layout is:
   - raw/ <--- Verlox writes uncompressed EMDs here
   - compressed/ <--- `repack_emd.py` writes compressed EMDs here
 
-## Compression
+## Compression (Ceta EMD files from Verlox)
 
 Verlox's EMD file is in the HDF5 container but uncompressed.
 Typical MicroED data can be compressed to less than 50 % of the original size.
@@ -35,6 +35,22 @@ For example, `Camera Ceta 20230611 2324 670 mm.emd` becomes `Camera_Ceta_2023061
 
 `-mmin +3` is to prevent processing files being recorded.
 But this might not be necessary, because Verlox locks files anyway.
+
+## Compression (Falcon 3 MRC files from SerialEM)
+
+Unlike Verlox, Falcon 3 movies and XML metadata can be written only to limited locations.
+We copy XML files, read MRC raw movies from the TemScripting folder and write compressed TIFF movies into the same place as other SerialEM files (montage, navigator, thumbnails and snapshots).
+
+```sh
+cd /path/to/navs/and/thumbnails
+mkdir compressed
+
+while true; do
+  find /mnt/falcon/TemScripting/BM-Falcon/`basename $PWD` -name '*.mrc' -mmin +1 | parallel -P4 --ungroup bash ~/prog/scripts/mrc2zip_tiff.sh {} compressed/{/.}.tif
+  rsync -avuP /mnt/falcon/TemScripting/BM-Falcon/`basename $PWD`/*.xml compressed
+  sleep 60
+done&
+```
 
 ## Transfer to our cluster
 
@@ -83,6 +99,16 @@ This happened about 1 in 50 movies.
 The script performs spot finding, indexing (without known unit cell) and integration.
 Empty frames are filtered (see below) and the Patterson group is estimated.
 Finally the intensities before and after blank removal are scaled in P1 to give a rough estimate of data quality.
+
+With Falcon 3, the file names are bit different: YYYY-MM-DD_HH.MM.SS_NAVID.
+In addition, TIFF files lack metadata about rotation and the pixel size, which must be supplied to `dials.import`.
+Use `process_P1-falcon.sh` instead.
+
+The `find` command should be:
+
+```
+find images/ -name "*.tif" | tee LIST | parallel -P8 --ungroup bash process_P1-falcon.sh
+```
 
 ## dials.filter_blanks
 
