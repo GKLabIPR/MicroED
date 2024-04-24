@@ -69,9 +69,9 @@ Note that this only **IGNORES** the problem. This does **NOT** fix it!
 The `Acquire at Items` proceeds with the original Z, which can be very off.
 Use this as the last resort. 
 
-## SerialEM macros
+## SerialEM setup
 
-### Set up illumination conditions
+### Illumination conditions
 
 We use the following illumination conditions:
 
@@ -99,7 +99,7 @@ Note that electron microscopes have hysteresis.
 When you switch from LM 115x, always cycle through View, Rec, Trial
 *in this order* two times before adjusting the beam.
 
-### Set up camera parameters
+### Camera parameters
 
 In SerialEM, use bin 2 and 1 (or 0.75) second exposure for the "View" and "Trial" conditions.
 
@@ -119,6 +119,8 @@ Click [`Edit`]-[`Preferences`] menu item:
 -  Export all images and maps to 16-bit grayscale TIFF after acuqisition: `off`   
    (We save in the EMD format)
 -  For `Filename`, select at least `Date` and `Time` to make sure file names are unique during data collection.
+
+## SerialEM Usage
 
 ### Draw montages
 
@@ -234,4 +236,3 @@ As of August 25, 2023, the nominal and real camera distances of our Talos Arctic
 - D670 ~ 618 mm
 - D530 ~ 521 mm
 - D420 ~ 411 mm
-
