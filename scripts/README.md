@@ -16,6 +16,8 @@ Our data layout is:
 
 ## Compression
 
+### Ceta EMD files from Verlox)
+
 Verlox's EMD file is in the HDF5 container but uncompressed.
 Typical MicroED data can be compressed to less than 50 % of the original size.
 
@@ -35,6 +37,22 @@ For example, `Camera Ceta 20230611 2324 670 mm.emd` becomes `Camera_Ceta_2023061
 
 `-mmin +3` is to prevent processing files being recorded.
 But this might not be necessary, because Verlox locks files anyway.
+
+### Falcon 3 MRC files from SerialEM
+
+Unlike Verlox, Falcon 3 movies and XML metadata can be written only to limited locations.
+We copy XML files, read MRC raw movies from the TemScripting folder and write compressed TIFF movies into the same place as other SerialEM files (montage, navigator, thumbnails and snapshots).
+
+```sh
+cd /path/to/navs/and/thumbnails
+mkdir compressed
+
+while true; do
+  find /mnt/falcon/TemScripting/BM-Falcon/`basename $PWD` -name '*.mrc' -mmin +1 | parallel -P4 --ungroup bash ~/prog/scripts/mrc2zip_tiff.sh {} compressed/{/.}.tif
+  rsync -avuP /mnt/falcon/TemScripting/BM-Falcon/`basename $PWD`/*.xml compressed
+  sleep 60
+done&
+```
 
 ## Transfer to our cluster
 
@@ -84,6 +102,16 @@ The script performs spot finding, indexing (without known unit cell) and integra
 Empty frames are filtered (see below) and the Patterson group is estimated.
 Finally the intensities before and after blank removal are scaled in P1 to give a rough estimate of data quality.
 
+With Falcon 3, the file names are bit different: YYYY-MM-DD_HH.MM.SS_STARTANGLE_SPEEDFACTOR_MicroED_NAVID.
+In addition, TIFF files lack metadata about rotation and the pixel size, which must be supplied to `dials.import`.
+Use `process_P1-falcon.sh` instead.
+
+The `find` command should be:
+
+```
+find images/ -name "*.tif" | tee LIST | parallel -P8 --ungroup bash process_P1-falcon.sh
+```
+
 ## dials.filter_blanks
 
 Often crystals go out of the beam during rotation or die due to radiation damage.
@@ -128,3 +156,18 @@ So you have to run `process_P1.sh` beforehand.
 This is good, because indexing with prior cell parameters rejects all
 crystals with different cell parameters. Thus, you might miss rare
 crystal polymorphs.
+
+## Processing tips
+
+### The default hkl_tolerance is too large
+
+When the unit cell is small (e.g. inorganic salt) and the image contains multiple lattices, the default `hkl_tolerance=0.3` in `dials.index` might be too large.
+It accepts many spots belonging to other lattices that are tens of or even one hundred pixels away on an image and distort the unit cell parameters.
+I found `hkl_tolerance=0.1` worked well.
+
+### The rotation axis can be different
+
+If your scope has the MicroED upgrade package with Ceta-D, the projection lens parameters have probably been adjusted such that the rotation axis coincides with the beam stop.
+This is not the case with our scope.
+
+In our scope, `goniometer.axis=0,1,0` but scopes with the upgrade probably need "goniometer.axis=1,0,0".

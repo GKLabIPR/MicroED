@@ -1,0 +1,288 @@
+MaxMacros 60
+
+Macro 5
+ScriptName SimpleTilt3
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+# Modified by Takanori Nakane.
+
+UpdateItemZ
+
+# 230426: GL8, nP spot11, parallel 0.06 e/A2/sec (measured by Falcon3EC)
+#              mP spot 8, C2 63 % << 0.01 e/A2/sec
+
+# 240308: IPR Talos
+#  0.0096 ~ 0.28596 deg/sec
+#  0.0192 ~ 0.57185 deg/sec
+#  0.0256 ~ 0.76246 deg/sec
+#  0.0320 ~ 0.95300 deg/sec
+#  0.0419 ~ 1.24787 deg/sec
+#  0.0480 ~ 1.42956 deg/sec
+#  0.0530 ~ 1.57837 deg/sec
+#  0.0640 ~ 1.90617 deg/sec
+
+ahk_dir = "Z:\SerialEM\"
+ahk = AutoHotkeyU64.exe
+script = start_velox_mov_rec.ahk
+Call SaveCrystalImage
+
+rotationSpeed = 0.0320
+Direction = 0
+plusMinusRange = 0.2
+
+ReportNavItem 
+navi_idx = $repval1
+k = modulo $navi_idx 4
+
+#k = -1
+
+If $k == 0
+  angleStart = 45
+  angleEnd = -20
+ElseIf $k == 1
+  angleStart = 35
+  angleEnd = -30
+ElseIf $k == 2
+  angleStart = 25
+  angleEnd = -40
+ElseIf $k == 3
+  angleStart = 15
+  angleEnd = -50
+ElseIf $k == -1
+  angleStart = +33
+  angleEnd = -30
+Endif 
+
+SetBeamBlank 1
+
+######################################################
+#SuppressReports 
+
+echo start:  $angleStart
+echo end:  $angleEnd
+echo rotationSpeed:  $rotationSpeed
+
+GoToLowDoseArea T
+Delay 3 sec
+GoToLowDoseArea R
+Call BS_in
+
+ProgramTimeStamps
+
+TiltTo $angleStart
+Delay 2 sec
+
+BackgroundTilt $angleEnd $rotationSpeed
+
+echo callVerlox
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script
+
+echo Loop
+Loop 999 index
+	Delay 1 sec
+	ReportTiltAngle
+	CurrentAngle = $ReportedValue1
+	If $Direction == 0
+		negLimit = $angleEnd + $plusMinusRange
+		If $CurrentAngle < $negLimit
+			break
+		Else
+			continue
+		Endif
+	Else
+		posLimit = $angleEnd - $plusMinusRange
+		If $CurrentAngle > $posLimit
+			break
+		Else
+			continue
+		Endif
+	Endif
+EndLoop
+
+echo CallVerlox
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script
+
+Delay 1 sec
+TiltTo 0
+Call BS_out
+EndMacro
+
+Macro	6
+ScriptName Chk_Dw_lvl
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+
+SuppressReports 
+
+DewarsRemainingTime dw_second
+dw_min = $dw_second / 60
+Echo Dewers remaining time $dw_min min
+
+If $dw_second < 1800
+    Echo Refill dewers before start
+    ResetClock 
+    LongOperation Re 0
+    ReportClock
+Endif
+EndMacro
+
+Macro	8
+ScriptName BS_in
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+# Modified by Takanori Nakane.
+
+ahk_dir = "Z:\SerialEM\"
+ahk = AutoHotkeyU64.exe
+script1 = beam_stop_in.ahk
+
+echo BS in
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script1
+Delay 1 sec
+EndMacro
+
+Macro	9
+ScriptName BS_out
+
+# Originally written by Haruaki Yanagisawa, University of Tokyo.
+# Modified by Takanori Nakane.
+
+ahk_dir = "Z:\SerialEM\"
+ahk = AutoHotkeyU64.exe
+script1 = beam_stop_out.ahk
+
+echo BS out
+RunInShell start /min $ahk_dir$ahk $ahk_dir$script1
+Delay 1 sec
+EndMacro
+
+Macro	16
+ScriptName SaveCrystalImage
+
+ReportNavItem
+# this defines $navLabel
+
+ReportDateTime
+date = $ReportedValue1
+time = $ReportedValue2
+CropCenterToSize A 512 512
+SaveToOtherFile A JPG NONE thumb-$date_$time_$navLabel.jpg
+EndMacro
+
+Macro	17
+ScriptName SaveDiffSnap
+
+# BS must be in before running this script
+
+L
+ReportNavItem
+# this defines $navLabel
+
+ReportDateTime
+date = $ReportedValue1
+time = $ReportedValue2
+CropCenterToSize A 1536 1536
+SaveToOtherFile A JPG NONE screen-$date_$time_$navLabel.jpg
+EndMacro
+
+Macro   20
+ScriptName FalconTilt
+
+NoMessageBoxOnError 
+UpdateItemZ
+
+# 230426: GL8, nP spot11, parallel 0.06 e/A2/sec (measured by Falcon3EC)
+#                           mP spot 8, C2 63 % << 0.01 e/A2/sec
+
+# 240308: IPR Talos
+#  0.0096 ~ 0.28596 deg/sec
+#  0.0192 ~ 0.57185 deg/sec
+#  0.0256 ~ 0.76246 deg/sec
+#  0.0320 ~ 0.95300 deg/sec
+#  0.0419 ~ 1.24787 deg/sec
+#  0.0480 ~ 1.42956 deg/sec
+#  0.0530 ~ 1.57837 deg/sec
+#  0.0640 ~ 1.90617 deg/sec
+
+ahk_dir = "Z:\SerialEM\"
+ahk = AutoHotkeyU64.exe
+script = start_velox_mov_rec.ahk
+Call SaveCrystalImage
+
+jobName = MicroED
+rotationSpeed = 0.0419
+
+ReportNavItem 
+
+navi_idx = $repval1
+k = modulo $navi_idx 4 # 4
+
+#k = -1
+
+# Aparently it takes about 3 sec for TiltDuringRecord to actually start recording!?
+# 65 deg at 0.95300 deg/sec => 68.2 sec, 66.865 sec exposure in 67 fractions (last 4frames stopped)
+# 65 (69) deg at 1.24787 deg/sec => 52.1 (54.5) sec, 51.05 sec exposure in 66 fractions
+# Or 51.0 in 292 fractions x 7 frames, 146 fractions x 14 frames
+# 69 deg at 1.42956 deg/sec => 48.3 sec, 45.06 sec exposure in 288 fractions x 7 frames
+
+If $k == 0 # 64, -4
+  angleStart = 64
+  angleEnd = -4
+ElseIf $k == 2 # 39, -30
+  angleStart = 39
+  angleEnd = -30
+ElseIf $k == 3 # 24, -45
+  angleStart = 24
+  angleEnd = -45
+ElseIf $k == 1 # 4, -65
+  angleStart = 4
+  angleEnd = -65
+ElseIf $k == -1
+  angleStart = 35
+  angleEnd = -38
+Endif 
+
+# High tilt mode
+
+#k = modulo $navi_idx 2
+#If $k == 0
+#  angleStart = 70
+#  angleEnd = 1
+#Else
+#  angleStart = -1
+#  angleEnd = -70
+#Endif 
+
+SetBeamBlank 1
+
+SetFrameBaseName 0 1 0 $angleStart_$rotationSpeed_$jobName
+
+######################################################
+
+#SuppressReports 
+
+echo start:  $angleStart
+echo end:  $angleEnd
+echo rotationSpeed:  $rotationSpeed
+
+GoToLowDoseArea T
+Delay 3 sec
+GoToLowDoseArea R
+
+Call BS_SA_in
+
+ProgramTimeStamps
+
+TiltTo $angleStart
+
+Delay 2 sec
+
+echo start tilt
+TiltDuringRecord $angleEnd 30 $rotationSpeed
+
+Delay 1 sec
+
+TiltTo 0
+
+Call BS_SA_out
+EndMacro
