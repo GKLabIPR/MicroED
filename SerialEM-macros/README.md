@@ -1,6 +1,7 @@
-# Automated data collection with SerialEM
+# Automated data collection with SerialEM and Ceta
 
 This folder contains macros for automated MicroED data collection with SerialEM.
+For instructions to use Falcon 3, please read [another page](Falcon3.md) in addition to this document.
 
 Some of the macros were originally written by Dr. Haruaki Yanagisawa at University of Tokyo.
 Please cite his paper if you use them in your work:
