@@ -22,7 +22,9 @@ Same as Ceta.
 
 ## SerialEM setup
 
-### Set up illumination conditions
+Use `SerialEM-macros-Falcon3.txt` instead of `SerialEM-macros.txt`.
+
+### Illumination conditions
 
 We use the following illumination conditions:
 
@@ -48,7 +50,7 @@ Otherwise, it will use the camera settings in the Record mode and records movies
 
 With this change, the routine for hysteresis removal is View, Trial, Record, not View, Record, Trial.
 
-### Set up camera parameters (most complicated)
+### Camera parameters (most complicated)
 
 With Ceta, we used AutoHotKeys to "press" Verlox's record button from a SerialEM script.
 The script pushed the record button right after it started the rotation and pushed the button again as soon as the rotation finished.
@@ -147,6 +149,8 @@ Almost the same as with Ceta, but `Use Montage mapping, not Record parameters` i
 Same as Ceta.
 
 ### Collect diffraction images
+
+Use the `FalconTilt` macro, instead of `SimpleTilt3`.
 
 **Apparently there are some lag (~ 3 seconds?) between the start of frame recording and goniometer rotation.**
 When both are set to the same duraction, the last few frames record still images.
