@@ -10,3 +10,5 @@ Please study and test them carefully before using; inadequate use might damage y
 - [scripts](scripts): data compression, transfer and processing scripts
 
 For information about our facility and how to apply for a beam time, see our [wiki](https://github.com/GKLabIPR/MicroED/wiki).
+
+蛋白研での MicroED の紹介と、測定依頼の方法は [wiki](https://github.com/GKLabIPR/MicroED/wiki) をご覧ください。
