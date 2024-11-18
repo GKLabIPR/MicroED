@@ -46,7 +46,7 @@ if [ ! -f optimised.expt ]; then
 fi
 dials.index optimised.expt strong.refl detector.fix=distance hkl_tolerance=0.15 #index_assignment.method=local #space_group=P2 # unit_cell=5,10,20,90,90,90
 if [ ! -f indexed.expt ]; then
-    dials.index optimised.expt strong.refl detector.fix=distance hkl_tolerance=0.15 #indexing.method=fft1d index_assignment.method=local #space_group=P2 # unit_cell=5,10,20,90,90,90
+    dials.index optimised.expt strong.refl detector.fix=distance hkl_tolerance=0.15 indexing.method=fft1d #index_assignment.method=local #space_group=P2 # unit_cell=5,10,20,90,90,90
 fi
 #if [ ! -f indexed.expt ]; then
 #    dials.index imported.expt strong.refl detector.fix=distance indexing.method=real_space_grid_search #space_group=P2 # unit_cell=5,10,20,90,90,90 
