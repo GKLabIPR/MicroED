@@ -16,7 +16,7 @@ Our data layout is:
 
 ## Compression
 
-### Ceta EMD files from Verlox)
+### Ceta EMD files from Verlox
 
 Verlox's EMD file is in the HDF5 container but uncompressed.
 Typical MicroED data can be compressed to less than 50 % of the original size.
@@ -171,3 +171,55 @@ If your scope has the MicroED upgrade package with Ceta-D, the projection lens p
 This is not the case with our scope.
 
 In our scope, `goniometer.axis=0,1,0` but scopes with the upgrade probably need "goniometer.axis=1,0,0".
+
+### Small-wedge X-ray datasets
+
+For crystals too large for MicroED but too small for conventional single-crystal data collection at in-house diffractometers or synchrotron beamlines, we use small-wedge data collection at synchrotron micro-focus beamlines.
+
+`process_P1-BL41XU.sh` is the data processing script for such datasets collected at SPring-8 BL41XU.
+The same script probably works for BL32XU and BL45XU as well (but has not been tested).
+
+The loop (or mesh) is first raster-scaned in 2D to locate crystals.
+For each crystals, small wedge (e.g. 20 deg) datasets are collected.
+
+Diffraction images from multiple crystal locations are stored in a single set of HDF5 files.
+The number of frames per location (crystal) is stored in `/entry/instrument/detector/detectorSpecific/nimages`, while the number of locations (crystals) are in `/entry/instrument/detector/detectorSpecific/ntriggers`.
+They can be dumped by the following commands:
+
+```sh
+h5dump -d /entry/instrument/detector/detectorSpecific/ntriggers multi_00_master.h5
+h5dump -d /entry/instrument/detector/detectorSpecific/nimages multi_00_master.h5
+```
+
+Edit the `NFRAME_PER_TRIGGER=` line to match the second number.
+
+Then each crystals can be processed as follows:
+
+```sh
+bash process_P1-BL41XU.sh multi01 0 # the first crystal in images/multi01/*_master.h5
+bash process_P1-BL41XU.sh multi01 1 # the second crystal in images/multi01/*_master.h5
+# ...
+```
+
+In practice, we process many crystals in parallel:
+
+```sh
+# Process 55 crystals in images/multi01/*_master.h5
+seq 0 54 | parallel -P8 --ungroup bash process_P1-BL41XU.sh multi01 {}
+
+# Or make a list of crystals as follows:
+
+# images/multi01/*_master.h5 contains 55 crystals
+for i in `seq 0 54`; do echo multi01 $i; done > LIST
+# images/multi02/*_master.h5 contains 47 crystals
+for i in `seq 0 46`; do echo multi02 $i; done >> LIST
+# ...
+
+# And process:
+# Note that we need --colsep ' ' to split two arguments in a line.
+parallel --colsep ' ' -P10 --ungroup bash process_P1-BL41XU.sh {} < LIST
+```
+
+Because the Ewald sphere is more curved with X-ray than electrons, we have fewer Friedel pairs on a frame.
+For small-wedge datasets, this leads to a very low multiplicity and instability of scaling and resolution estimation when performed on individual crystals.
+**Do not** rely on per-crystal resolution estimates when selecting crystals to merge.
