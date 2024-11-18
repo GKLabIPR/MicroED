@@ -172,18 +172,18 @@ This is not the case with our scope.
 
 In our scope, `goniometer.axis=0,1,0` but scopes with the upgrade probably need "goniometer.axis=1,0,0".
 
-### Small-wedge X-ray datasets
+### Small-wedge X-ray datasets from SPring-8 beam lines
 
-For crystals too large for MicroED but too small for conventional single-crystal data collection at in-house diffractometers or synchrotron beamlines, we use small-wedge data collection at synchrotron micro-focus beamlines.
+For crystals too large for MicroED but too small for conventional single-crystal data collection even at synchrotron beamlines, we use small-wedge data collection at synchrotron micro-focus beamlines.
 
-`process_P1-BL41XU.sh` is the data processing script for such datasets collected at SPring-8 BL41XU.
+`process_P1-BL41XU.sh` is a data processing script for such datasets collected at SPring-8 BL41XU.
 The same script probably works for BL32XU and BL45XU as well (but has not been tested).
 
 The loop (or mesh) is first raster-scaned in 2D to locate crystals.
 For each crystals, small wedge (e.g. 20 deg) datasets are collected.
 
 Diffraction images from multiple crystal locations are stored in a single set of HDF5 files.
-The number of frames per location (crystal) is stored in `/entry/instrument/detector/detectorSpecific/nimages`, while the number of locations (crystals) are in `/entry/instrument/detector/detectorSpecific/ntriggers`.
+The number of frames per location (crystal) is stored in `/entry/instrument/detector/detectorSpecific/nimages`, while the number of locations (crystals) is in `/entry/instrument/detector/detectorSpecific/ntriggers`.
 They can be dumped by the following commands:
 
 ```sh
@@ -193,7 +193,7 @@ h5dump -d /entry/instrument/detector/detectorSpecific/nimages multi_00_master.h5
 
 Edit the `NFRAME_PER_TRIGGER=` line to match the second number.
 
-Then each crystals can be processed as follows:
+Individual crystals can be processed as follows:
 
 ```sh
 bash process_P1-BL41XU.sh multi01 0 # the first crystal in images/multi01/*_master.h5
