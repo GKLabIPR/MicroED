@@ -183,7 +183,7 @@ The loop (or mesh) is first raster-scaned in 2D to locate crystals.
 For each crystals, small wedge (e.g. 20 deg) datasets are collected.
 
 Diffraction images from multiple crystal locations are stored in a single set of HDF5 files.
-The number of frames per location (crystal) is stored in `/entry/instrument/detector/detectorSpecific/nimages`, while the number of locations (crystals) is in `/entry/instrument/detector/detectorSpecific/ntriggers`.
+The number of frames per location (crystal) is stored in `/entry/instrument/detector/detectorSpecific/nimages`, while the number of locations (crystals) is in `/entry/instrument/detector/detectorSpecific/ntrigger`.
 They can be dumped by the following commands:
 
 ```sh
