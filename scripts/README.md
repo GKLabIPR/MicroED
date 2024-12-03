@@ -187,7 +187,7 @@ The number of frames per location (crystal) is stored in `/entry/instrument/dete
 They can be dumped by the following commands:
 
 ```sh
-h5dump -d /entry/instrument/detector/detectorSpecific/ntriggers multi_00_master.h5
+h5dump -d /entry/instrument/detector/detectorSpecific/ntrigger multi_00_master.h5
 h5dump -d /entry/instrument/detector/detectorSpecific/nimages multi_00_master.h5
 ```
 
