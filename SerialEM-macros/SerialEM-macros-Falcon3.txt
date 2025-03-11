@@ -62,10 +62,11 @@ echo start:  $angleStart
 echo end:  $angleEnd
 echo rotationSpeed:  $rotationSpeed
 
+Call BS_SA_in
+Delay 1 sec
 GoToLowDoseArea T
-Delay 3 sec
+Delay 2 sec
 GoToLowDoseArea R
-Call BS_in
 
 ProgramTimeStamps
 
@@ -185,7 +186,7 @@ CropCenterToSize A 1536 1536
 SaveToOtherFile A JPG NONE screen-$date_$time_$navLabel.jpg
 EndMacro
 
-Macro   20
+Macro	20
 ScriptName FalconTilt
 
 NoMessageBoxOnError 
@@ -204,13 +205,14 @@ UpdateItemZ
 #  0.0530 ~ 1.57837 deg/sec
 #  0.0640 ~ 1.90617 deg/sec
 
-ahk_dir = "Z:\SerialEM\"
+ahk_dir = "Z:\Nakane\SerialEM\"
 ahk = AutoHotkeyU64.exe
-script = start_velox_mov_rec.ahk
+#script = start_velox_mov_rec.ahk
 Call SaveCrystalImage
 
-jobName = MicroED
-rotationSpeed = 0.0419
+jobName = MicroED-RotTest
+#rotationSpeed = 0.0419 # 51 sec, 14 * 146
+rotationSpeed = 0.0640 # 33.01 sec. 9 * 147
 
 ReportNavItem 
 
@@ -218,6 +220,7 @@ navi_idx = $repval1
 k = modulo $navi_idx 4 # 4
 
 #k = -1
+#k = $k + 2
 
 # Aparently it takes about 3 sec for TiltDuringRecord to actually start recording!?
 # 65 deg at 0.95300 deg/sec => 68.2 sec, 66.865 sec exposure in 67 fractions (last 4frames stopped)
@@ -225,8 +228,8 @@ k = modulo $navi_idx 4 # 4
 # Or 51.0 in 292 fractions x 7 frames, 146 fractions x 14 frames
 # 69 deg at 1.42956 deg/sec => 48.3 sec, 45.06 sec exposure in 288 fractions x 7 frames
 
-If $k == 0 # 64, -4
-  angleStart = 64
+If $k == 0 # 65, -4
+  angleStart = 65
   angleEnd = -4
 ElseIf $k == 2 # 39, -30
   angleStart = 39
@@ -245,13 +248,14 @@ Endif
 # High tilt mode
 
 #k = modulo $navi_idx 2
-#If $k == 0
-#  angleStart = 70
-#  angleEnd = 1
-#Else
-#  angleStart = -1
-#  angleEnd = -70
-#Endif 
+k = $k + 10
+If $k == 11
+ angleStart = 70
+ angleEnd = 1
+ElseIf $k == 10
+  angleStart = -1
+  angleEnd = -70
+Endif 
 
 SetBeamBlank 1
 
@@ -265,11 +269,11 @@ echo start:  $angleStart
 echo end:  $angleEnd
 echo rotationSpeed:  $rotationSpeed
 
-GoToLowDoseArea T
-Delay 3 sec
-GoToLowDoseArea R
-
 Call BS_SA_in
+Delay 1 sec
+GoToLowDoseArea T
+Delay 2 sec
+GoToLowDoseArea R
 
 ProgramTimeStamps
 
@@ -278,6 +282,7 @@ TiltTo $angleStart
 Delay 2 sec
 
 echo start tilt
+
 TiltDuringRecord $angleEnd 30 $rotationSpeed
 
 Delay 1 sec

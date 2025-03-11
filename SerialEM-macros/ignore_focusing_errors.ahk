@@ -12,8 +12,8 @@
 ; Use this as the last resort.
 
 #NoEnv
-loop {
-	if WinExist("Error ahk_class #32770 ahk_exe SerialEM.exe")
+loop {  ; the Title was "Error" in earlier versions of SerialEM
+	if WinExist("SerialEM ahk_class #32770 ahk_exe SerialEM.exe")
 	{
 		ControlGetText, DialogText, Static2
 		FoundPos := InStr(DialogText, "Error in Eucentricity")

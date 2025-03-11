@@ -14,4 +14,5 @@ SendMode Input
 CoordMode, Mouse, Relative
 WinActivate, TEM User Interface
 sleep,500
-MouseClick, L, 313, 56
+MouseClick, L, 350, 65
+# was 313, 56 on old TUI.

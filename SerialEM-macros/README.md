@@ -43,6 +43,10 @@ The camera and recording parameters have to be set beforehand.
 
 Depending on the TUI and Verlox version, you might have to update the button coordinates.
 
+In newer versions of TUI, beam stop control buttons are disabled (grayed out) during lens normalization.
+Thus, you have to press these buttons BEFORE changing the low dose mode.
+Otherwise, a button click by AutoHotKeys can be ignored.
+
 **CAREFULLY TEST THIS YOURSELF BEFORE YOUR EXPERIMENT!**
 Failure to properly insert a beam stop can permanently damage your detector.
 We take no responsibility.

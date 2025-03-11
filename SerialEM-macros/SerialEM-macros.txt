@@ -60,10 +60,11 @@ echo start:  $angleStart
 echo end:  $angleEnd
 echo rotationSpeed:  $rotationSpeed
 
-GoToLowDoseArea R
-Delay 3 sec
-GoToLowDoseArea T
 Call BS_in
+Delay 1 sec
+GoToLowDoseArea R
+Delay 2 sec
+GoToLowDoseArea T
 
 ProgramTimeStamps
 
