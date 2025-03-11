@@ -65,12 +65,16 @@ Let's start with easy ones:
 - View and Montage: Single image, 0.75 seconds
 - Preview: Single image, 0.5 seconds 
 
-For the Record mode, check `Save frames` and set the `Exposure time` to 51.0 second.
+For the Record mode, check `Save frames` and set the `Exposure time` to 51.0 seconds.
 Click `Set Up Frames to Save` to open the "Frame Summing Selector" dialog box.
 Change the `# of summed frames to save` to `146`.
 This should give 146 fractions with 14 frames each.
+This is suitable for 69 degrees rotation at the speed factor of 0.0419 (~ 1.247 deg/second).
 You may try different combinations (e.g. 292 fractions with 7 frames each) but make sure all fractions contain the same number of frames.
 Otherwise, deg/frame becomes non-uniform and causes processing issues.
+
+For beam sensitive samples, we use the speed factor of 0.0640 (~ 1.906 deg/second).
+In this case, we use an exposure of 33.01 seconds, divided into 9 frames / fraction, 147 fractions in total.
 
 Click `Set File Options` to open the "Frame File Options" dialog box.
 Enable `Base name` and set it "MicroED" (or whatever).
@@ -204,13 +208,16 @@ Endif
 
 ### Virtual camera distances
 
-As of March 14, 2024, the nominal and real camera distances of our Talos Arctica with Falcon 3 are as follows.
+The nominal and real camera distances of our Talos Arctica with Falcon 3 are as follows.
+These values were first calibrated on March 14, 2024 (values in parenthesis) and reconfirmed on March 7, 2025 after the scope PC upgrade.
+Values were tested every 0.5 mm.
 
-- D850 ~ 777.5 mm, max res ~ 0.68 Å
-- D670 ~ 615.5 mm, max res ~ 0.54 Å
-- D530 ~ 520.5 mm, max res ~ 0.45 Å
+- D1050 ~ 978.0 (--) mm, max res ~ 0.86 Å
+- D850 ~ 777.0 (777.5) mm, max res ~ 0.68 Å
+- D670 ~ 615.5 (615.5) mm, max res ~ 0.54 Å
+- D530 ~ 519.5 (520.5) mm, max res ~ 0.45 Å
 
-These values were calibrated by SrTiO3 cubic crystals.
+These values were calibrated by BaZrO3 cubic crystals.
 Unfortunately, the literature values are not very consistent:
 
 - J. Materials Science [“Low-temperature thermophysical and crystallographic properties of BaZrO3 perovskite”](https://link.springer.com/article/10.1007/s10853-020-04453-5)  
@@ -218,18 +225,25 @@ Unfortunately, the literature values are not very consistent:
 - Physics and Chemistry of Minerals [“Thermal expansion of SrZrO3 and BaZrO3 perovskites”](https://link.springer.com/article/10.1007/BF00200187)  
   says 4.1947 (4) Å at 200 K, 4.1900 (4) Å at 25 K.
  
-The overall error is hopefully about 0.5 %.
+The overall error is hopefully about 0.3 %.
 
 ### Rotation speed
 
 The relationship between SerialEM's speed factor and the physical rotation speed was calibrated on March 9, 2024
 by recording Ceta movies on Velox and checking metadata in EMD files.
 
+On March 8, 2025, the rotation speeds were measured again (values in parenthesis).
+Variations were up to 0.2 % (except 0.0640).
+
 - 0.0096 ~ 0.28596 deg/sec
-- 0.0192 ~ 0.57185 deg/sec
+- 0.0192 ~ 0.57185 deg/sec (0.57063)
 - 0.0256 ~ 0.76246 deg/sec
-- 0.0320 ~ 0.95300 deg/sec
-- 0.0419 ~ 1.24787 deg/sec
-- 0.0480 ~ 1.42956 deg/sec
-- 0.0530 ~ 1.57837 deg/sec
-- 0.0640 ~ 1.90617 deg/sec
+- 0.0320 ~ 0.95300 deg/sec (0.95229)
+- 0.0419 ~ 1.24787 deg/sec (1.25018)
+- 0.0480 ~ 1.42956 deg/sec (1.43211)
+- 0.0530 ~ 1.57837 deg/sec (1.57944)
+- 0.0640 ~ 1.90617 deg/sec (1.90516)
+
+NOTE: for the speed factor 0.0640, the initial test on Mar 8, 2025 gave 1.29305 deg/sec over 20 seconds,
+whose difference from the earlier calibration is larger than the others.
+When measured again with a larger rotation range (44 seconds), the value (1.90516) became more consistent.
