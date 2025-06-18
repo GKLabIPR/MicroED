@@ -16,8 +16,9 @@ Olex2 はかならず[最新版(1.5 系列の中でも Alpha 版)をダウンロ
 
 ## Hydrogens
 
-水素は Q peak として見える場合と見えない場合があります。
-見えた場合でも、結合の分極により、水素原子核の位置と peak の位置は一致しません。
+水素は差フーリエ図上に Q peak として見える場合と見えない場合があります。
+見えた場合でも、MicroED や SPA など電子をプローブとして使う手法では、X-H 結合の電子雲の分極により、水素原子核の位置と peak の位置は一致しません
+(例えば [Nakane et al., Nature (2020)](https://www.nature.com/articles/s41586-020-2829-0) の supplementary discussion 参照)。
 そのため、基本的には riding model にしてください。
 
 Hydroxy hydrogen など、位置が一意に決まらず、Q peak や Fo-Fc difference map 上も見えない場合は、水素結合など化学的考察から最も蓋然性が高い場所に置いてください。
@@ -133,8 +134,8 @@ _diffrn_detector_type              CMOS
 _diffrn_source                     'Talos Arctica Field Emission Gun'
 _diffrn_radiation_probe            electron
 _diffrn_radiation_type             electron
-_diffrn_ambient_temperature 79
-_cell_measurement_temperature 79
+_diffrn_ambient_temperature        79
+_cell_measurement_temperature      79
 ```
 
 Ceta camera の部分は Falcon 3 の場合は 'Falcon 3 direct electron detector (integration mode)' としてください。
