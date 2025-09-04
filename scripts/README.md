@@ -67,6 +67,7 @@ while true; do rsync -avuP --exclude raw --exclude '*.tmp' talos-otf:/mnt/falcon
 
 First of all, install [FormatVelox.py](https://github.com/dials/dxtbx_ED_formats/blob/main/FormatVelox.py)
 to DIALS via `dxtbx.install_format` command to read Verlox EMD movies.
+For Falcon3 TIFF movies, install [FormatTIFFMultipage.py](https://github.com/dials/dxtbx_ED_formats/blob/main/FormatTIFFMultipage.py) instead.
 
 We make a separate work directory and make a symbolic link called `images` to the `compressed` folder.
 For each crystal, we make a subdirectory, within which each processing trial has its own directory.

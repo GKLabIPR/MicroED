@@ -126,6 +126,26 @@ Click [`Edit`]-[`Preferences`] menu item:
 
 ## SerialEM Usage
 
+### Prepare and load grids
+
+1.  Make sure the target material is fully dry powder.
+    If it is wet or sticky, ask the sample provider (usually chemists) to make it dry.
+2.  Put an EM grid (we use Quantifoil Mo R1.2/1.3) inside the sample tube and tap it several times.
+3.  Remove the grid from the sample tube and place it on a glass slide.
+4.  Inspect the grid under a light microscope.
+    If the particle density is too low, make a second grid.
+    If the particles are too large, crash and break them by inserting a spatula into the sample tube.
+5.  Clip the grids.
+6.  Insert them into a cartridge from the top (position 12) and downwards.
+    Up to this step, everything should be done at room temperature, under normal atmosphere.
+7.  Cool the transfer cup by liquid nitrogen.
+8.  When the bubbling stops, remove almost all the nitrogen except the last 1 or 1.5 cm.
+9.  Put the cartridge in the cup and dock the cup to the scope.
+
+In this way, we avoid direct contacts between the grids and liquid nitrogen.
+Otherwise, the grids will be fully covered by frosts (hexagonal ice crystals).
+Some crystals seem to float or be shaken off by liquid nitrogen.
+
 ### Draw montages
 
 1.  Switch the scope to the grid montage condition (LM 115x, CA 150 um) and load a grid.
