@@ -134,9 +134,8 @@ Click [`Edit`]-[`Preferences`] menu item:
 3.  Remove the grid from the sample tube and place it on a glass slide.
 4.  Inspect the grid under a light microscope.
     If the particle density is too low, make a second grid.
-    If the particles are too large, crash and break them by inserting a spatula into the sample tube.
-5.  Clip the grids.
-6.  Insert them into a cartridge from the top (position 12) and downwards.
+    If the particles are too large, crash and break them by inserting a spatula into the sample tube and redo from the step.
+6.  Clip the grids and insert them into a cartridge from the top (position 12) and downwards.
     Up to this step, everything should be done at room temperature, under normal atmosphere.
 7.  Cool the transfer cup by liquid nitrogen.
 8.  When the bubbling stops, remove almost all the nitrogen except the last 1 or 1.5 cm.
