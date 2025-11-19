@@ -120,6 +120,14 @@ ESD は非常な過小評価になっています。
 
 同梱する cif ファイルから転載してください。
 
+## Crystal dimensions
+
+> EXPT009_ALERT_1_A  No crystal dimensions have been given
+
+この他、色や形態(plate, needle など)についても記載を要求されます。
+報告 PDF にスケールバーつきの画像を入れていますので、そこから読み取って記入してください。
+色は肉眼で見た所見を記載してください。
+
 ## Diffractometer
 
 > PLAT660_ALERT_1_A No Valid _diffrn_radiation_type Value Reported
@@ -165,6 +173,32 @@ Rint は複数の結晶をマージすることが稀だった時代に考えら
 > The traditional threshold of 0.12 (or 0.25) is for low multiplicity datasets and not adequate for this data.
 
 マージした結晶の数 (X) は、報告 PDF を見て書いてください。
+
+## Standards
+
+> DIFF019_ALERT_1_A  _diffrn_standards_number is missing\
+> DIFF020_ALERT_1_A  _diffrn_standards_interval_count and _diffrn_standards_interval_time are missing\
+> DIFF022_ALERT_1_A  _diffrn_standards_decay_% is missing
+
+これらは IUCr 系ジャーナル向けの基準でチェックすると出現します。
+
+```
+_diffrn_standards_number           0
+_diffrn_standards_interval_count   0
+_diffrn_standards_decay_%          0
+```
+
+としてください。
+
+## Absorption correction
+
+> ABSTY01_ALERT_1_A  The absorption correction should be one of the following
+
+これも IUCr 系ジャーナル向けの基準でチェックしたときのみ出現します。
+
+データセットによって、どのようにスケールしたかが異なるので、`dials.scale.log` ファイルを確認ください。
+`absorp` という文字がない場合は、`_exptl_absorpt_correction_type none` と書くだけで OK です。
+もし `absorp` という文字がある場合は連絡ください。
 
 ## Chirality
 
