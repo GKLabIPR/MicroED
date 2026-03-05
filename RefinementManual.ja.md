@@ -203,3 +203,18 @@ _diffrn_standards_decay_%          0
 ## Chirality
 
 Chirality がある物質の場合、`_chemical_absolute_configuration` は実験的に決めたわけではなく、合成ルートから類推したものですから、`syn` にしてください。
+
+## R factors in CIF and FCF
+
+> PLAT921_ALERT_1_B R1 in CIF and R1 Calcd from FCF Data Differ
+> PLAT922_ALERT_1_B wR2 in the CIF and FCF Differ
+
+これは、Olex2.refine と SHELXL との間で、extinction correction の方法が異なるため生じます。
+最新の Alpha バージョンを使っても改善せず、差が 0.01 未満なら、次のように説明してください。
+
+> When the extinction correction is enabled, Olex2's target function
+> is different from that of SHELXL: SHELXL modifies |Fo|^2, while
+> Olex2 modifies |Fc|^2. Thus, Olex2 has to transfer the effect of
+> the correction from |Fc|^2 to |Fo|^2 at the end of the refinement
+> before generating FCF. Numerical issues cause slight deviations
+> as pointed out here.
