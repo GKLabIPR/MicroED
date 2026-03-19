@@ -106,7 +106,10 @@
             
             tableHTML += '<thead><tr>';
             keepIndices.forEach(idx => {
-                tableHTML += `<th style="${ST_TH}">${escapeHTML(headerParts[idx])}</th>`;
+                let val = headerParts[idx];
+                if (mode == "google")
+                    val = "'" + val;
+                tableHTML += `<th style="${ST_TH}">${escapeHTML(val)}</th>`;
             });
             tableHTML += '</tr></thead><tbody>';
 
