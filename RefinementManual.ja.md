@@ -167,12 +167,15 @@ Validation Response Form で以下のように書いてください。
 Rint は複数の結晶をマージすることが稀だった時代に考えられた指標であり、多重度が高い場合には役に立ちません。
 次のようにコメントしてください。
 
-> R(int) increases with the multiplicity of the dataset.
+> Due to dynamical scattering, intensities of symmetry equivalent reflections can be different in MicroED.
+> This caused high Rint values.
+> Moreover, R(int) increases with the multiplicity of the dataset.
 > This is pointed out in Diederichs & Karplus, Nat. Struct. Biol., 1997 for the case of a related metric R(merge).
 > We merged X crystals.
 > The traditional threshold of 0.12 (or 0.25) is for low multiplicity datasets and not adequate for this data.
 
 マージした結晶の数 (X) は、報告 PDF を見て書いてください。
+X が 8 未満なら、moreover 以降は書かなくて良いです。
 
 ## Standards
 
