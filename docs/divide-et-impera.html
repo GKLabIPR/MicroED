@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A Divide and Conquer approach for Bloch wave simulation</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: {'[+]': [['$', '$']]}
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js">
+</script>
+</head>
+<body>
+<h1>A Divide and Conquer approach for the Bloch wave simulation</h1>
+
+<h2>Problem</h2>
+<p>The computational cost of a typical implementation of the Bloch wave simulation is $O(N^3)$, where $N$ is the number of reflections (beams) in the calculation.
+For large unit cells or high-resolution simulations, $N$ can be prohibitively large. 
+</p>
+
+<h2>Method</h2>
+<p>Given $N$ reflections relevant at a specific crystal and beam setup, classify them into $M$ ($ \ll N$) strongly excited beams and $N - M$ weak beams.
+This classification can be done by the structure factor amplitude $|F|$, the excitation error $Sg$ or both (Olex2 can use $|F|/Sg$).
+<p>First calculate the $M$ strong intensities in one simulation, using an $M \times M$ matrix with Bethe potential perturbations from $N-M$ weak beams.<br>
+Next, repeat $N-M$ simulations to determine the intensities of the remaining weak reflections.
+In each simulation, use an $(M+1) \times (M+1)$ matrix ($M$ strong beams and 1 weak beam of interest) with the rest ($N-M-1$ weak beams) accounted for by the Bethe potential.</p>
+
+<h2>Analysis</h2>
+<p>Because the diagonalization cost is $O(N^3)$, by appropriate choice of M, $O(N^3) \gg O\left(M^3 \left(N-M \right)\right)$.</p>
+
+<p>This approach ignores direct and indirect (via strong beams) interactions among weak beams.
+It only captures interactions involving strong beams.</p>
+
+<p>This method can be modified to treat $M$ strong reflections and a small number of $m$ weak reflections in one simulation.
+Depending on the fixed-cost of setting up the matrix and invoking the diagonalization routine, such grouping can be beneficial.
+This modification can also be useful when a certain matrix size leads to a better hardware (SIMD, GPU etc) utilization.<p>
+
+<p>This approach ($M$ strong plus one weak variant) is used in Olex2 and FELIX, for example.</p>
+
+<hr>
+<p>Written by Takanori Nakane at the Institute for Protein Research, The University of Osaka.</p>
+
+<p><a href="./index.html">Back to the menu</a></p>
+
+</body>
+</html>

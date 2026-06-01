@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>An almost-free calculation of the inverse-hand structure by the Bloch wave simulation</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: {'[+]': [['$', '$']]}
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js">
+</script>
+</head>
+<body>
+<h1>An almost-free calculation of the inverse-hand structure by the Bloch wave simulation</h1>
+
+<h2>Problem</h2>
+<p>To determine the absolute hand, one has to perform two dynamical simulations for the original model and the inverted model.
+This doubles the computational cost.</p>
+
+<h2>Assumptions</h2>
+<p>This assumes that the absorption effects can be ignored and the incident beam is a plane wave.</p>
+
+<p>From the latter, the incident wavefunction can be assumed to be $(1, 0, 0, \cdots, 0)$ without loss of generality,
+because the global phase factor and the order of the beams are arbitrary.</p>
+
+<h2>Method</h2>
+
+<p>Set up the structure matrix $A$ and diagonalize it as usual.
+Calculate the dynamical intensities by using <b>a negative thickness $-t$</b>.
+This corresponds to the dynamical intensities of the inverted structure at thickness $t$!
+In this way, one can avoid the computationally-heavy matrix diagonalization step.
+</p>
+
+<h2>Proof</h2>
+<p>In the Bloch wave method, the exit wavefunction at thickness $z$, $\psi(z)$, can be written as
+$$ \psi(z) = \exp(2 \pi i z A) \psi(0),$$
+where $\psi(0)$  is the incident wavefunction.<br>
+The matrix $A$ consists of real diagonal elements related to the excitation error and complex off-diagonal elements related to the structure factors $F$.</p>
+
+<p>Without absorption effects, the structure factor of an inverted structure $F_{inv}$ is simply the complex conjugate of the structure factor of the original structure $F$ as
+
+$$F_{inv} = F^*,$$
+
+where the asterisk denotes complex conjugate.
+Thus, the matrix of the inverse structure is also the complex conjugate of the original matrix:
+
+$$A_{inv} = A^*.$$
+</p>
+
+<p>Therefore,
+
+$$\psi_{inv}(z) = \exp(2 \pi i z A_{inv})\psi(0) = \exp (2 \pi i z A^*)\psi(0) =
+  \exp\left(\left(- 2 \pi i z A\right)^*\right)\psi(0) = \exp(- 2 \pi i z A)^* \psi(0) = \psi(-z)^*. $$
+
+
+<p>Noting that the observed intensities are the squared magnitude of this wavefunction,
+$$ I_{inv}(z) = |\psi_{inv}(z)|^2 = |\psi(-z)^*|^2 = I(-z),$$
+this completes the proof.</p>
+
+<hr>
+<p>Written by Takanori Nakane at the Institute for Protein Research, The University of Osaka.</p>
+
+<p><a href="./index.html">Back to the menu</a></p>
+
+</body>
+</html>
