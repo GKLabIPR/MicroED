@@ -6,6 +6,12 @@
 
 To be written.
 
+### Omega filter
+
+At the moment, we cannot insert the omega filter slit.
+
+The zero-loss peak is too large at D300, CA 100 um.
+
 ### SerialEM bugs
 
 To be written.
@@ -53,4 +59,4 @@ The pixel size of Apollo is 8 um.
 After 2x binning to 2K x 2K, it is 16 um.
 
 Note that in SerialEM, no binning means super-resolution (8K x 8K).
-To get a 2K x 2K images, select 4x binning.
+To get a 2K x 2K image, select 4x binning.
