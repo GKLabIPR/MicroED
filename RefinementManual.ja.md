@@ -45,7 +45,8 @@ MicroED で解いた構造が一致しない場合があります。
 
 ## 温度
 
-測定温度は約 79 K なので、精密化の際に ins ファイルに `TEMP -194.15` と記入してください。
+Talso での測定温度は約 79 K なので、精密化の際に ins ファイルに `TEMP -194.15` と記入してください。
+CRYO ARM での測定温度は約 92 K なので、`TEMP -181.15` となります。
 (CIF ファイルは単位が K だが、ins ファイルは単位が摂氏温度であることに注意)
 
 # Refinement
@@ -102,6 +103,8 @@ ESD は非常な過小評価になっています。
 そのため、小数点以下三桁目の精度はないと考えてください。
 論文では 1.234 Å のように書かず、1.23 Å までにしてください。
 
+詳しくは、[Ishikawa et al. Acta Cryst. E, 2026](https://doi.org/10.1107/S2056989026004755) の discussion 末尾をご覧ください。
+
 上に書いたように、水素の位置は原子核位置ではありません。
 例えば -OH ... O= という水素結合があったとき、O-O 間距離はともかく、H ... O 距離の議論はしないでください。
 
@@ -135,10 +138,9 @@ ESD は非常な過小評価になっています。
 以下のように記載してください。
 
 ```
-_diffrn_measurement_method         'continuous rotation electron
-diffraction (MicroED)'
+_diffrn_measurement_method         'continuous rotation electron diffraction (MicroED)'
 _diffrn_measurement_device_type    'Talos Arctica electron microscope'
-_diffrn_detector                   'Ceta camera'
+_diffrn_detector                   'Falcon 3 direct electron detector (integration mode)'
 _diffrn_detector_type              CMOS
 _diffrn_source                     'Talos Arctica Field Emission Gun'
 _diffrn_radiation_probe            electron
@@ -147,7 +149,21 @@ _diffrn_ambient_temperature        79
 _cell_measurement_temperature      79
 ```
 
-Ceta camera の部分は Falcon 3 の場合は 'Falcon 3 direct electron detector (integration mode)' としてください。
+検出器については、2024 年 2 月以前のデータについては 'Ceta camera' としてください。
+
+2026 年 5 月末以降、CRYO ARM 200 で撮影したデータについては、以下のようになります。
+
+```
+_diffrn_measurement_method         'continuous rotation electron diffraction (MicroED)'
+_diffrn_measurement_device_type    'JEOL CRYO ARM 200 II microscope'
+_diffrn_detector                   'Direct Electron Apollo'
+_diffrn_detector_type              CMOS
+_diffrn_source                     'JEOL Cold Field Emission Gun'
+_diffrn_radiation_probe            electron
+_diffrn_radiation_type             electron
+_diffrn_ambient_temperature        92
+_cell_measurement_temperature      92
+```
 
 ## R1, wR2
 
